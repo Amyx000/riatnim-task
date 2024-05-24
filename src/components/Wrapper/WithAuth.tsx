@@ -9,9 +9,8 @@ import { toast } from "react-toastify";
 
 function WithAuth({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
-  const { authenticatorStatus, setAuthenticatorStatus } = GlobalStore();
+  const { setAuthenticatorStatus } = GlobalStore();
   const path = usePathname();
-  const router = useRouter();
 
   const handleAuth = async () => {
     try {
@@ -29,14 +28,14 @@ function WithAuth({ children }: { children: React.ReactNode }) {
     handleAuth();
   }, [path]);
 
-  useEffect(() => {
-    const isRootPath = path === "/";
-    const shouldRedirect =
-      authenticatorStatus === "authenticated" ? isRootPath : !isRootPath;
-    if (shouldRedirect) {
-      router.push(authenticatorStatus === "authenticated" ? "/dashboard" : "/");
-    }
-  }, [authenticatorStatus]);
+  // useEffect(() => {
+  //   const isRootPath = path === "/";
+  //   const shouldRedirect =
+  //     authenticatorStatus === "authenticated" ? isRootPath : !isRootPath;
+  //   if (shouldRedirect) {
+  //     router.push(authenticatorStatus === "authenticated" ? "/dashboard" : "/");
+  //   }
+  // }, [authenticatorStatus]);
 
   const handleConnection = (connected: boolean) => {
     if (connected) {

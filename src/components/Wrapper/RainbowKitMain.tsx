@@ -14,6 +14,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { SiweMessage } from "siwe";
 import GlobalStore from "@/store/GlobalStore";
+import { useRouter } from "next/navigation";
 
 const config = getDefaultConfig({
   appName: "My RainbowKit App",
@@ -26,6 +27,7 @@ const queryClient = new QueryClient();
 
 function RainbowKitMain({ children }: { children: React.ReactNode }) {
   const { authenticatorStatus, setAuthenticatorStatus } = GlobalStore();
+  const router = useRouter();
 
   const authenticationAdapter = createAuthenticationAdapter({
     getNonce: async () => {
@@ -50,10 +52,12 @@ function RainbowKitMain({ children }: { children: React.ReactNode }) {
     verify: async ({ message, signature }) => {
       const { data } = await axios.post("/api/verify", { message, signature });
       setAuthenticatorStatus("authenticated");
+      router.push("/dashboard");
       return data.verify;
     },
     signOut: async () => {
       await axios.get("/api/logout");
+      router.push("/");
       setAuthenticatorStatus("unauthenticated");
     },
   });
