@@ -32,7 +32,7 @@ export const fetchTransactions = async (
     module: "account",
     action: "txlist",
     address: "0xa83114A443dA1CecEFC50368531cACE9F37fCCcb",
-    page: 1,
+    page,
     offset: 10, // Taking only the first 10 result as the provided address has large number of transaction which would be difficult for this assignment purpose.
     sort: "desc",
     apikey: process.env.NEXT_PUBLIC_ETHSCANAPI,

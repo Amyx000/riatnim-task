@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ScaleLoader } from "react-spinners";
 import GlobalStore from "@/store/GlobalStore";
+import { toast } from "react-toastify";
 
 function Transactions() {
   const [data, setData] = useState<TransactionType[]>([]);
@@ -18,10 +19,18 @@ function Transactions() {
   useEffect(() => {
     //fetch api
     (async () => {
-      setLoading(true);
-      const data = await fetchTransactions(1);
-      if (data !== null) setData(data);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const data = await fetchTransactions(1);
+        if (data !== null) setData(data);
+        else {
+          toast.error("Something went Wrong!");
+        }
+      } catch (error) {
+        toast.error("Something went Wrong!");
+      } finally {
+        setLoading(false);
+      }
     })();
   }, []);
 

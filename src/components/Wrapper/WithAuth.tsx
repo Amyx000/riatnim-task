@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import LoadingScreen from "../common/LoadingScreen";
 import GlobalStore from "@/store/GlobalStore";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function WithAuth({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
@@ -36,6 +37,24 @@ function WithAuth({ children }: { children: React.ReactNode }) {
       router.push(authenticatorStatus === "authenticated" ? "/dashboard" : "/");
     }
   }, [authenticatorStatus]);
+
+  const handleConnection = (connected: boolean) => {
+    if (connected) {
+      toast.success("Connected to internet");
+    } else {
+      toast.error("Internet connection fail");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("online", () => handleConnection(true));
+    window.addEventListener("offline", () => handleConnection(false));
+
+    return () => {
+      window.removeEventListener("online", () => handleConnection(true));
+      window.removeEventListener("offline", () => handleConnection(false));
+    };
+  }, []);
 
   return <div>{loading ? <LoadingScreen /> : children}</div>;
 }
