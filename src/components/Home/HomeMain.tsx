@@ -1,39 +1,11 @@
-"use client";
-
-import axios from "axios";
-import React, { useEffect } from "react";
+import React from "react";
 
 function HomeMain() {
-  const fetchTransactions = async () => {
-    const params = {
-      module: "account",
-      action: "txlist",
-      address: "0xa83114A443dA1CecEFC50368531cACE9F37fCCcb",
-      page: 1,
-      offset: 10,
-      sort: "asc",
-      apikey: process.env.NEXT_PUBLIC_ETHSCANAPI,
-    };
-    try {
-      const { data } = await axios.get(
-        process.env.NEXT_PUBLIC_ETHSCAN_ENDPOINT as string,
-        { params }
-      );
-      if (data.status === "0") throw new Error(data.result);
-      console.log(data.result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    //fetch api
-    fetchTransactions();
-  }, []);
-
   return (
-    <div>
-      <div>Data</div>
+    <div className="h-full flex justify-center items-center">
+      <div className="-translate-y-[50px] text-accent font-extrabold lg:text-7xl md:text-5xl text-3xl relative before:content-['RIATNIM.ETH'] before:top-full before:absolute before:rotate-180 before:scale-x-[-1] before:opacity-50 after:content-[''] after:absolute after:top-full after:left-0 after:w-full after:h-full after:bg-gradient-to-b from-transparent from-[5%] to-main to-[95%]">
+        RIATNIM.ETH
+      </div>
     </div>
   );
 }
